@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from requests import get
+from random import randint
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
                          " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"}
@@ -45,12 +46,19 @@ class FilmDownloader:
 
     def get_film_keywords(self):
         keywords = []
-        if self.get_film_page().select_one(".tagsContainer"):
+        if self.get_film_page().select(".tagsContainer"):
             a_tags = self.get_film_page().select_one(".tagsContainer").select("a")
             for a_tag in a_tags:
                 keywords.append(str(a_tag.text).strip())
         return keywords
 
+    def get_description(self):
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
+
+    def get_price(self):
+        return randint(999, 4999)
+
+    # Original version
     def get_film_data(self):
         return {
             "id": self.get_film_id(),
@@ -62,3 +70,15 @@ class FilmDownloader:
             "keywords": self.get_film_keywords(),
             "genres": self.get_film_genres()
         }
+
+    
+
+    # Modified version
+    # def get_film_data(self):
+    #    return {
+    #       "name": self.get_film_name(),
+    #       "description": self.get_description(),
+    #       "price": self.get_price(),
+    #       "photo": self.get_film_poster(),
+    #      "active": True
+    #    }
