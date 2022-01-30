@@ -20,7 +20,9 @@ class FilmDownloader:
         return genres
 
     def get_film_id(self):
-        return int(str(self.get_film_page().select_one("#star_rating_modal").get("data-movie-id")).strip())
+        if self.get_film_page().select("#star_rating_modal"):
+            return int(str(self.get_film_page().select_one("#star_rating_modal").get("data-movie-id")).strip())
+        return 0
 
     def get_film_stars(self):
         return {"None": 0, "Rossz": 1, "Gyenge": 2, "Átlagos": 3, "Jó": 4, "Zseniális": 5}.get(self.film_rating)
