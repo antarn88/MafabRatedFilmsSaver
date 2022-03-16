@@ -28,7 +28,7 @@ class FilmDownloader:
         return {"None": 0, "Rossz": 1, "Gyenge": 2, "Átlagos": 3, "Jó": 4, "Zseniális": 5}.get(self.film_rating)
 
     def get_film_page(self):
-        return BeautifulSoup(get(self.film_link, headers=headers).text, "lxml")
+        return BeautifulSoup(get(self.film_link, timeout=300, headers=headers).text, "lxml")
 
     def get_film_name(self):
         return str(self.get_film_page().select_one(".mp-title-right h1").contents[0]).strip()

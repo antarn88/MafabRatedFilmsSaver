@@ -5,7 +5,7 @@ from requests import get
 
 from FilmDownloader import FilmDownloader
 
-print("Mafab Rated Films Saver 1.1\n")
+print("Mafab Rated Films Saver 1.2\n")
 mafab_user_id = input("Kérem a Mafab user ID-t: ")
 print()
 current_page = 1
