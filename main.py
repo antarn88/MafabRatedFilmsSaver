@@ -5,7 +5,7 @@ from requests import get
 
 from FilmDownloader import FilmDownloader
 
-print("Mafab Rated Films Saver 1.2\n")
+print("Mafab Rated Films Saver 1.21\n")
 mafab_user_id = input("Kérem a Mafab user ID-t: ")
 print()
 current_page = 1
@@ -14,7 +14,7 @@ films_counter = 0
 download_films = 0
 films = {"films": []}
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-                         " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"}
+                         " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36"}
 
 while True:
     mafab_current_url = f"https://www.mafab.hu/user/{mafab_user_id}/ertekelesek/&page={current_page}"
