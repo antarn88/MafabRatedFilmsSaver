@@ -28,7 +28,17 @@ class FilmDownloader:
         return {"None": 0, "Rossz": 1, "Gyenge": 2, "Átlagos": 3, "Jó": 4, "Zseniális": 5}.get(self.film_rating)
 
     def get_film_page(self):
-        return BeautifulSoup(get(self.film_link, timeout=300, headers=headers).text, "lxml")
+        try:
+            response = get(self.film_link, headers=headers, verify=False)
+            if response:
+                return BeautifulSoup(response.text, "lxml")
+            else:
+                print(f"Meghiúsult filmletöltés! A film linkje: {self.film_link}")
+                return None
+        except Exception as ex:
+            print(f"Meghiúsult filmletöltés! A film linkje: {self.film_link}")
+            print(f"A hiba részletei: {ex}")
+            return None
 
     def get_film_name(self):
         return str(self.get_film_page().select_one(".mp-title-right h1").contents[0]).strip()
@@ -60,7 +70,6 @@ class FilmDownloader:
     def get_price(self):
         return randint(999, 4999)
 
-    # Original version
     def get_film_data(self):
         return {
             "id": self.get_film_id(),
@@ -72,15 +81,3 @@ class FilmDownloader:
             "keywords": self.get_film_keywords(),
             "genres": self.get_film_genres()
         }
-
-    
-
-    # Modified version
-    # def get_film_data(self):
-    #    return {
-    #       "name": self.get_film_name(),
-    #       "description": self.get_description(),
-    #       "price": self.get_price(),
-    #       "photo": self.get_film_poster(),
-    #      "active": True
-    #    }
