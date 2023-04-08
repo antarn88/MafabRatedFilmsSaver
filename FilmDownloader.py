@@ -33,7 +33,8 @@ class FilmDownloader:
             if response:
                 return BeautifulSoup(response.text, "lxml")
             else:
-                print(f"Meghiúsult filmletöltés! A film linkje: {self.film_link}")
+                print(
+                    f"Meghiúsult filmletöltés! A film linkje: {self.film_link}")
                 return None
         except Exception as ex:
             print(f"Meghiúsult filmletöltés! A film linkje: {self.film_link}")

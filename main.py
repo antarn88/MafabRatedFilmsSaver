@@ -27,33 +27,39 @@ while True:
     try:
         response = get(mafab_current_url, headers=headers, verify=False)
     except Exception as ex:
-        print(f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
+        print(
+            f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
         print(f"Részletek: {ex}")
         break
 
     if response:
         soup = BeautifulSoup(response.text, "lxml")
         if current_page == 1:
-            films_counter = int(soup.select_one(".heading-box .h-counter").text.replace("(", "").replace(")", ""))
+            films_counter = int(soup.select_one(
+                ".heading-box .h-counter").text.replace("(", "").replace(")", ""))
             if soup.select(".pagination li.hidden-xs a"):
-                last_page = int(soup.select(".pagination li.hidden-xs a")[-1].text)
+                last_page = int(soup.select(
+                    ".pagination li.hidden-xs a")[-1].text)
             else:
                 last_page = 1
         film_rows = soup.select(".profile-content-item")
         for film_row in film_rows:
             film_name = str(film_row.select_one(".movie_title").text).strip()
             film_link = f"https://www.mafab.hu{str(film_row.select_one('.movie_title_link').get('href')).strip()}"
-            film_rating = str(film_row.select_one(".pci-movie-row-stars span").get("title")).strip()
+            film_rating = str(film_row.select_one(
+                ".pci-movie-row-stars span").get("title")).strip()
             film_downloader = FilmDownloader(film_link, film_rating)
             films.get("films").append(film_downloader.get_film_data())
             download_films += 1
-            print(f"\rLetöltött filmadatok a memóriába: {download_films}/{films_counter}", end="")
+            print(
+                f"\rLetöltött filmadatok a memóriába: {download_films}/{films_counter}", end="")
         if current_page == last_page:
             break
         else:
             current_page += 1
     else:
-        print(f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
+        print(
+            f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
         break
 
 try:
