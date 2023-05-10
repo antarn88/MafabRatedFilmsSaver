@@ -22,15 +22,13 @@ headers = {
 disable_warnings(exceptions.InsecureRequestWarning)
 
 while True:
-    mafab_current_url = (
-        f"https://www.mafab.hu/user/{mafab_user_id}/ertekelesek/&page={current_page}")
+    mafab_current_url = f"https://www.mafab.hu/user/{mafab_user_id}/ertekelesek/&page={current_page}"
     response: Response
 
     try:
         response = get(mafab_current_url, headers=headers, verify=False)
     except Exception as ex:
-        print(
-            f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
+        print(f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
         print(f"Részletek: {ex}")
         break
 
@@ -39,11 +37,9 @@ while True:
         if current_page == 1:
             h_counter = soup.select_one(".heading-box .h-counter")
             if h_counter is not None:
-                films_counter = int(
-                    h_counter.text.replace("(", "").replace(")", ""))
+                films_counter = int(h_counter.text.replace("(", "").replace(")", ""))
                 if soup.select(".pagination li.hidden-xs a"):
-                    last_page = int(soup.select(
-                        ".pagination li.hidden-xs a")[-1].text)
+                    last_page = int(soup.select(".pagination li.hidden-xs a")[-1].text)
                 else:
                     last_page = 1
         film_rows = soup.select(".profile-content-item")
@@ -57,20 +53,16 @@ while True:
                     stars = film_row.select_one(".pci-movie-row-stars span")
                     if stars is not None:
                         film_rating = str(stars.get("title")).strip()
-                        film_downloader = FilmDownloader(
-                            film_link, film_rating)
-                        filmsDict.get("films").append(
-                            film_downloader.get_film_data())
+                        film_downloader = FilmDownloader(film_link, film_rating)
+                        filmsDict.get("films").append(film_downloader.get_film_data())
                         downloaded_films += 1
-                        print(
-                            f"\rLetöltött filmadatok a memóriába: {downloaded_films}/{films_counter}", end="")
+                        print(f"\rLetöltött filmadatok a memóriába: {downloaded_films}/{films_counter}", end="")
         if current_page == last_page:
             break
         else:
             current_page += 1
     else:
-        print(
-            f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
+        print(f"Meghiúsúlt az oldalletöltés! Az utolsó sikeres oldal: {current_page}")
         break
 
 try:

@@ -26,7 +26,7 @@ class FilmDownloader:
 
     def get_film_id(self) -> int:
         film_page = self.get_film_page()
-        if film_page is not None: 
+        if film_page is not None:
             if film_page.select("#star_rating_modal"):
                 star_rating_modal = film_page.select_one("#star_rating_modal")
                 if star_rating_modal is not None:
@@ -59,19 +59,13 @@ class FilmDownloader:
 
     def get_film_year(self) -> int:
         film_page = self.get_film_page()
-        if film_page is not None: 
+        if film_page is not None:
             h1_span = film_page.select_one(".mp-title-right h1 span")
             if h1_span is not None:
                 try:
                     return int(str(h1_span.text).strip().replace("(", "").replace(")", ""))
                 except ValueError:
-                    return int(
-                        str(h1_span.text)
-                        .strip()
-                        .replace("(", "")
-                        .replace(")", "")
-                        .split("-")[0]
-                    )
+                    return int(str(h1_span.text).strip().replace("(", "").replace(")", "").split("-")[0])
                 except AttributeError:
                     return 0
         return 0
@@ -107,4 +101,3 @@ class FilmDownloader:
             "keywords": self.get_film_keywords(),
             "genres": self.get_film_genres(),
         }
- 
