@@ -71,5 +71,5 @@ try:
     json_file.write(json)
     json_file.close()
     input("\nA JSON fájl sikeresen elkészült.")
-except:
-    input("\nHiba történt a JSON fájl elkészítésekor!")
+except (FileNotFoundError, PermissionError, IOError, TypeError) as e:
+    input("\nHiba történt a JSON fájl elkészítésekor: " + str(e))
