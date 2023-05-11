@@ -2,6 +2,7 @@
   "editor.formatOnSave": true,
   "python.formatting.provider": "black",
   "python.formatting.blackArgs": ["--line-length=130"],
-  "python.linting.pycodestyleEnabled": true,
-  "python.linting.pycodestyleArgs": ["--max-line-length=130"]
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": ["--disable=missing-docstring", "--max-line-length=130"]
 }
