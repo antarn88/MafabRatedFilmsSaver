@@ -4,7 +4,7 @@ from requests import RequestException, Response, get
 from urllib3 import disable_warnings, exceptions
 
 from film_downloader import FilmDownloader
-from my_types import FilmsDict
+from custom_types import FilmsDict
 
 print("Mafab Rated Films Saver 1.24\n")
 mafab_user_id: str = input("Kérem a Mafab user ID-t: ")

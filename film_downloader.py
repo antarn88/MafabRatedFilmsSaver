@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup, ResultSet, Tag
 from requests import RequestException, Response, get
 
-from my_types import Film
+from custom_types import Film
 
 headers: dict[str, str] = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
