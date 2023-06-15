@@ -33,7 +33,7 @@ while True:
         break
 
     if response:
-        soup: BeautifulSoup = BeautifulSoup(response.text, "lxml")
+        soup: BeautifulSoup = BeautifulSoup(response.text, "html.parser")
         if current_page == 1:
             h_counter: Tag | None = soup.select_one(".heading-box .h-counter")
             if h_counter is not None:
