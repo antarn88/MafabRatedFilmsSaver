@@ -6,7 +6,7 @@ from urllib3 import disable_warnings, exceptions
 from film_downloader import FilmDownloader
 from custom_types import FilmsDict
 
-print("Mafab Rated Films Saver 1.24\n")
+print("Mafab Rated Films Saver 1.3\n")
 mafab_user_id: str = input("Kérem a Mafab user ID-t: ")
 print()
 current_page: int = 1
@@ -16,7 +16,7 @@ downloaded_films: int = 0
 filmsDict: FilmsDict = {"films": []}
 headers: dict[str, str] = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-    " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
+    " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
 }
 
 disable_warnings(exceptions.InsecureRequestWarning)
