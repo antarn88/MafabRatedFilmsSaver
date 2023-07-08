@@ -6,7 +6,7 @@ from urllib3 import disable_warnings, exceptions
 from film_downloader import FilmDownloader
 from custom_types import FilmsDict
 
-print("Mafab Rated Films Saver 1.3\n")
+print("Mafab Rated Films Saver 1.31\n")
 mafab_user_id: str = input("Kérem a Mafab user ID-t: ")
 print()
 current_page: int = 1
@@ -33,7 +33,7 @@ while True:
         break
 
     if response:
-        soup: BeautifulSoup = BeautifulSoup(response.text, "html.parser")
+        soup: BeautifulSoup = BeautifulSoup(response.text, "lxml")
         if current_page == 1:
             h_counter: Tag | None = soup.select_one(".heading-box .h-counter")
             if h_counter is not None:

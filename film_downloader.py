@@ -40,7 +40,7 @@ class FilmDownloader:
         try:
             response: Response = get(self.__film_link, headers=headers, verify=False, timeout=None)
             if response:
-                return BeautifulSoup(response.text, "html.parser")
+                return BeautifulSoup(response.text, "lxml")
             print(f"Meghiúsult filmletöltés! A film linkje: {self.__film_link}")
             return None
         except RequestException as ex:
