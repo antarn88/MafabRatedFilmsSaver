@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup, ResultSet, Tag
+from bs4 import BeautifulSoup, Tag
 from requests import RequestException, Response, get
 
 from custom_types import Film
@@ -16,12 +16,13 @@ class FilmDownloader:
 
     def __get_film_genres(self) -> list[str]:
         genres: list[str] = []
-        film_page: BeautifulSoup | None = self.__get_film_page()
+        film_page = self.__get_film_page()
         if film_page is not None:
-            genres_a_tags: ResultSet[Tag] = film_page.select(".mp-genres a")
-            if genres_a_tags:
-                for genre_a_tag in genres_a_tags:
-                    genres.append(str(genre_a_tag.text).strip())
+            selector = ".movie_quick_info .film-info-span a"
+            genre_links = film_page.select(selector, href=lambda x: x and "genre=" in x)  # type: ignore
+            if genre_links:
+                genres = [link.text.strip() for link in genre_links]  # type: ignore
+                genres = list(set(genres))
         return genres
 
     def get_film_id(self) -> int:
@@ -59,13 +60,16 @@ class FilmDownloader:
     def __get_film_year(self) -> int:
         film_page: BeautifulSoup | None = self.__get_film_page()
         if film_page is not None:
-            h1_span: Tag | None = film_page.select_one(".mp-title-right h1 span")
-            if h1_span is not None:
+            movie_quick_info_tag = None
+
+            if (film_page_tag := film_page.select_one(".movie_quick_info")) is not None:
+                movie_quick_info_tag = film_page_tag.find("div", {"class": "film-info-span"})
+
+            if movie_quick_info_tag:
                 try:
-                    return int(str(h1_span.text).strip().replace("(", "").replace(")", ""))
-                except ValueError:
-                    return int(str(h1_span.text).strip().replace("(", "").replace(")", "").split("-", maxsplit=1)[0])
-                except AttributeError:
+                    year_tag = movie_quick_info_tag.contents[0]  # type: ignore
+                    return int(year_tag.strip())  # type: ignore
+                except (TypeError, AttributeError):
                     return 0
         return 0
 
@@ -81,12 +85,9 @@ class FilmDownloader:
         keywords: list[str] = []
         film_page: BeautifulSoup | None = self.__get_film_page()
         if film_page is not None:
-            if film_page.select(".tagsContainer"):
-                tags_container: Tag | None = film_page.select_one(".tagsContainer")
-                if tags_container is not None:
-                    a_tags: ResultSet[Tag] = tags_container.select("a")
-                    for a_tag in a_tags:
-                        keywords.append(str(a_tag.text).strip())
+            keyword_tags = film_page.select(".kulcszo")
+            keywords = [tag.text.strip() for tag in keyword_tags]
+            keywords = list(set(keywords))
         return keywords
 
     def get_film_data(self) -> Film:
